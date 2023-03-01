@@ -38,3 +38,37 @@ int main(int argc, char *argv[])
     CHECK_MSG(mydbversion == SQLServerVersion::SQL_SERVER_2019, "10 should be  equal SQL_SERVER_2019\n");
 }
 ```
+
+## how to use
+### after install use without find_package
+```cmake
+add_executable(dbchker t.cpp)
+target_link_libraries(dbchker dbversionchecker)
+```
+
+### after install use with find_package
+```cmake
+#// if installed with intall_prefix, add camke search path
+#// list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
+find_package(dbversionchecker)
+add_executable(dbchecker t.cpp)
+target_link_libraries(dbchecker dbversionchecker)
+
+```
+
+use case
+
+```cpp
+#include <iostream>
+#include <SQLServerChecker.h>
+
+int main()
+{
+
+    auto buildversion = DBVersionChecker::SQLServerBuildVersion("7.0");
+    if (buildversion <= DBVersionChecker::SQLServerVersion::SQL_SERVER_2008)
+    {
+        std::cout << "do something compatible to sqlserver 2008\n";
+    }
+} 
+```
